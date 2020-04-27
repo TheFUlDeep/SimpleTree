@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include <memory>
 #include <ostream>
 
@@ -100,13 +100,13 @@
 		void pop_front()
 		{
 			if (head == nullptr) throw std::exception("can't pop");
-			head = head->nextnode;// shared_ptr сам очистит за собой
+			head = head->nextnode;// shared_ptr СЃР°Рј РѕС‡РёСЃС‚РёС‚ Р·Р° СЃРѕР±РѕР№
 			len--;
 		}
 
 		T& operator[](const size_t n)const { return GetNode(n)->value; }
 
-		void SortMinMax()//чуть быстрее, чем BubbleSort
+		void SortMinMax()//С‡СѓС‚СЊ Р±С‹СЃС‚СЂРµРµ, С‡РµРј BubbleSort
 		{
 			if (head == nullptr) return;
 			for (size_t i = 0; i < len; i++)
@@ -125,7 +125,7 @@
 				}
 				if (minchanged) SwapNodes(mink,curnode);
 				if (maxchanged) SwapNodes(maxk, lastnode);
-				/*if (minchanged)//это свап чисто значений из ноудов, а не целиком ноудов
+				/*if (minchanged)//СЌС‚Рѕ СЃРІР°Рї С‡РёСЃС‚Рѕ Р·РЅР°С‡РµРЅРёР№ РёР· РЅРѕСѓРґРѕРІ, Р° РЅРµ С†РµР»РёРєРѕРј РЅРѕСѓРґРѕРІ
 				{
 					T tmp = mink->value;
 					mink->value = curnode->value;
@@ -150,7 +150,7 @@
 				{
 					if (curnode->value > curnode2->value)
 					{
-						//свапаю только значения, а не сами ноуды. Если value будут какими-то очень большими, то лучше свапать имнено сами ноуды. Еще можно исопльзовать std::move
+						//СЃРІР°РїР°СЋ С‚РѕР»СЊРєРѕ Р·РЅР°С‡РµРЅРёСЏ, Р° РЅРµ СЃР°РјРё РЅРѕСѓРґС‹. Р•СЃР»Рё value Р±СѓРґСѓС‚ РєР°РєРёРјРё-С‚Рѕ РѕС‡РµРЅСЊ Р±РѕР»СЊС€РёРјРё, С‚Рѕ Р»СѓС‡С€Рµ СЃРІР°РїР°С‚СЊ РёРјРЅРµРЅРѕ СЃР°РјРё РЅРѕСѓРґС‹. Р•С‰Рµ РјРѕР¶РЅРѕ РёСЃРѕРїР»СЊР·РѕРІР°С‚СЊ std::move
 						T tmp = curnode->value;
 						curnode->value = curnode2->value;
 						curnode2->value = tmp;
@@ -161,7 +161,7 @@
 			}
 		}
 
-		void RecursiveSort()//съедает стэк и может вызвать stackoverflow
+		void RecursiveSort()//СЃСЉРµРґР°РµС‚ СЃС‚СЌРє Рё РјРѕР¶РµС‚ РІС‹Р·РІР°С‚СЊ stackoverflow
 		{
 			MyListNode<T>* curnode = head.get();
 			MyListNode<T>* prevnode = nullptr;
@@ -186,7 +186,7 @@
 		{
 			auto curnode = head;
 			if (curnode == nullptr) throw std::exception("can't get head");
-			for (size_t i = 0; i < n; i++)//буду проходить на 1 меньше указанного индекса
+			for (size_t i = 0; i < n; i++)//Р±СѓРґСѓ РїСЂРѕС…РѕРґРёС‚СЊ РЅР° 1 РјРµРЅСЊС€Рµ СѓРєР°Р·Р°РЅРЅРѕРіРѕ РёРЅРґРµРєСЃР°
 			{
 				curnode = curnode->nextnode;
 				if (curnode == nullptr) throw std::exception("can't get node");
@@ -198,7 +198,7 @@
 		{
 			auto curnode = end;
 			if (curnode == nullptr) throw std::exception("can't get head");
-			for (size_t i = 0; i < n; i++)//буду проходить на 1 меньше указанного индекса
+			for (size_t i = 0; i < n; i++)//Р±СѓРґСѓ РїСЂРѕС…РѕРґРёС‚СЊ РЅР° 1 РјРµРЅСЊС€Рµ СѓРєР°Р·Р°РЅРЅРѕРіРѕ РёРЅРґРµРєСЃР°
 			{
 				curnode = curnode->prevnode;
 				if (curnode == nullptr) throw std::exception("can't get node");

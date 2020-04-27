@@ -1,4 +1,4 @@
-#include "MyTree.h"
+п»ї#include "MyTree.h"
 
 template<typename T>
 MyTreeNode<T>::MyTreeNode(const T key, MyTreeNode<T> *prnt, const std::shared_ptr<MyTreeNode<T>> &lft, const std::shared_ptr<MyTreeNode<T>> &rght)
@@ -20,7 +20,7 @@ MyTree<T>::~MyTree() = default;
 
 
 template<typename T>
-MyTree<T>& MyTree<T>::operator=(const MyTree<T> &other) { nodesCount = other->nodesCount; head = other.head; }//TODO возможно shared_ptr сам нормально скопируется. Надо проверить
+MyTree<T>& MyTree<T>::operator=(const MyTree<T> &other) { nodesCount = other->nodesCount; head = other.head; }//TODO РІРѕР·РјРѕР¶РЅРѕ shared_ptr СЃР°Рј РЅРѕСЂРјР°Р»СЊРЅРѕ СЃРєРѕРїРёСЂСѓРµС‚СЃСЏ. РќР°РґРѕ РїСЂРѕРІРµСЂРёС‚СЊ
 
 
 template<typename T>
@@ -42,7 +42,7 @@ void MyTree<T>::Add(T k)
 		while (curnode != nullptr)
 		{
 			prevnode = curnode;
-			if (k == curnode->key) return;//если такой ключ уже есть, то пропускается
+			if (k == curnode->key) return;//РµСЃР»Рё С‚Р°РєРѕР№ РєР»СЋС‡ СѓР¶Рµ РµСЃС‚СЊ, С‚Рѕ РїСЂРѕРїСѓСЃРєР°РµС‚СЃСЏ
 			else if (k < curnode->key) curnode = curnode->left.get();
 			else curnode = curnode->right.get();
 		}
@@ -92,30 +92,30 @@ void MyTree<T>::RemoveNode(const MyTreeNode<T>* node)
 	MyTreeNode<T> *nodeleft = node->left.get();
 	MyTreeNode<T> *noderight = node->right.get();
 
-	if (node->parent != nullptr)//если есть роидетль (если это не голова)
+	if (node->parent != nullptr)//РµСЃР»Рё РµСЃС‚СЊ СЂРѕРёРґРµС‚Р»СЊ (РµСЃР»Рё СЌС‚Рѕ РЅРµ РіРѕР»РѕРІР°)
 	{
 		MyTreeNode<T> *parentnode = node->parent.get();
 
-		bool parentleft = parentnode->left.get() == node; //определяю, этот ноуд слева от родителя или справа
+		bool parentleft = parentnode->left.get() == node; //РѕРїСЂРµРґРµР»СЏСЋ, СЌС‚РѕС‚ РЅРѕСѓРґ СЃР»РµРІР° РѕС‚ СЂРѕРґРёС‚РµР»СЏ РёР»Рё СЃРїСЂР°РІР°
 
-		if (nodeleft == nullptr && noderight == nullptr) //если нет листьев
+		if (nodeleft == nullptr && noderight == nullptr) //РµСЃР»Рё РЅРµС‚ Р»РёСЃС‚СЊРµРІ
 		{
 			if (parentleft) parentnode->left = nullptr;
 			else parentnode->right = nullptr;
 		}
-		else if (nodeleft != nullptr && noderight == nullptr)//если есть только левый ноуд
+		else if (nodeleft != nullptr && noderight == nullptr)//РµСЃР»Рё РµСЃС‚СЊ С‚РѕР»СЊРєРѕ Р»РµРІС‹Р№ РЅРѕСѓРґ
 		{
 			if (parentleft) parentnode->left = node->left;
 			else parentnode->right = node->left;
 		}
-		else if (nodeleft == nullptr && noderight != nullptr)//если есть только правый ноуд
+		else if (nodeleft == nullptr && noderight != nullptr)//РµСЃР»Рё РµСЃС‚СЊ С‚РѕР»СЊРєРѕ РїСЂР°РІС‹Р№ РЅРѕСѓРґ
 		{
 			if (parentleft) parentnode->left = node->right;
 			else parentnode->right = node->right;
 		}
-		else//если есть оба ноуда 
+		else//РµСЃР»Рё РµСЃС‚СЊ РѕР±Р° РЅРѕСѓРґР° 
 		{
-			//вместо удаленного ноуда вставляю левый. Но можно было правый. 
+			//РІРјРµСЃС‚Рѕ СѓРґР°Р»РµРЅРЅРѕРіРѕ РЅРѕСѓРґР° РІСЃС‚Р°РІР»СЏСЋ Р»РµРІС‹Р№. РќРѕ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РїСЂР°РІС‹Р№. 
 
 			auto rightnode = node->right;
 
@@ -129,12 +129,12 @@ void MyTree<T>::RemoveNode(const MyTreeNode<T>* node)
 	}
 	else
 	{
-		if (nodeleft == nullptr && noderight == nullptr) head = nullptr; //если нет листьев
-		else if (nodeleft != nullptr && noderight == nullptr)head = head->left; //если есть только левый ноуд
-		else if (nodeleft == nullptr && noderight != nullptr) head = head->right;//если есть только правый ноуд
-		else//если есть оба ноуда 
+		if (nodeleft == nullptr && noderight == nullptr) head = nullptr; //РµСЃР»Рё РЅРµС‚ Р»РёСЃС‚СЊРµРІ
+		else if (nodeleft != nullptr && noderight == nullptr)head = head->left; //РµСЃР»Рё РµСЃС‚СЊ С‚РѕР»СЊРєРѕ Р»РµРІС‹Р№ РЅРѕСѓРґ
+		else if (nodeleft == nullptr && noderight != nullptr) head = head->right;//РµСЃР»Рё РµСЃС‚СЊ С‚РѕР»СЊРєРѕ РїСЂР°РІС‹Р№ РЅРѕСѓРґ
+		else//РµСЃР»Рё РµСЃС‚СЊ РѕР±Р° РЅРѕСѓРґР° 
 		{
-			//вместо удаленного ноуда вставляю левый. Но можно было правый. 
+			//РІРјРµСЃС‚Рѕ СѓРґР°Р»РµРЅРЅРѕРіРѕ РЅРѕСѓРґР° РІСЃС‚Р°РІР»СЏСЋ Р»РµРІС‹Р№. РќРѕ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РїСЂР°РІС‹Р№. 
 			auto rightnode = node->right;
 			head = head->left;
 			MyTreeNode<T> *curnode = head;
@@ -203,10 +203,10 @@ void MyTree<T>::PrettyPrintRecursive(const size_t h, MyList<MyTreeNode<T>*> prev
 
 	bool needDeeper = false;
 
-	//первая позиция, сдвиг, количество символов
+	//РїРµСЂРІР°СЏ РїРѕР·РёС†РёСЏ, СЃРґРІРёРі, РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРёРјРІРѕР»РѕРІ
 	//size_t symbolscount = pow(2,linenumber-1);
 
-	//это надо считать только 1 раз
+	//СЌС‚Рѕ РЅР°РґРѕ СЃС‡РёС‚Р°С‚СЊ С‚РѕР»СЊРєРѕ 1 СЂР°Р·
 	if (maxlen == 0)
 	{
 		size_t maxlenmax = std::to_string(FindMax()->key).length();
@@ -221,7 +221,7 @@ void MyTree<T>::PrettyPrintRecursive(const size_t h, MyList<MyTreeNode<T>*> prev
 	size_t space = firstpos * 2;
 
 
-	for (size_t i = 1; i < firstpos; i++) std::cout << spacestr;//начальный сдвиг
+	for (size_t i = 1; i < firstpos; i++) std::cout << spacestr;//РЅР°С‡Р°Р»СЊРЅС‹Р№ СЃРґРІРёРі
 	while (!prevline.empty())
 	{
 		auto val = prevline.front();

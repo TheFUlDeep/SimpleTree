@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include <memory>
 #include <string>
 #include <algorithm>
@@ -33,7 +33,7 @@ private:
 	std::shared_ptr<MyTreeNode<T>> head = nullptr;
 	size_t nodesCount = 0;
 	
-	//поиск по ключу, но только ниже указателя, который передается вторым аргументом
+	//РїРѕРёСЃРє РїРѕ РєР»СЋС‡Сѓ, РЅРѕ С‚РѕР»СЊРєРѕ РЅРёР¶Рµ СѓРєР°Р·Р°С‚РµР»СЏ, РєРѕС‚РѕСЂС‹Р№ РїРµСЂРµРґР°РµС‚СЃСЏ РІС‚РѕСЂС‹Рј Р°СЂРіСѓРјРµРЅС‚РѕРј
 	MyTreeNode<T>* RecursiveFind(const T, MyTreeNode<T>* = nullptr)const;
 	size_t RecursiveGetHeight(const MyTreeNode<T>* = nullptr)const;
 	//std::shared_ptr<T*> AllNodesToArray();

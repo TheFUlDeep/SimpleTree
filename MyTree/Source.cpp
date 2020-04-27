@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include "MyTree.cpp"
 
 using namespace std;
@@ -9,26 +9,26 @@ int main()
 
 
 	MyTree<int> a;
-	cout << "Ïóñòîå ëè äåðåâî: " << a.IsEmpty() << endl;
-	cout << "Êîëè÷åñòâî íîóäîâ: " << a.GetNodesCount() << endl;
+	cout << "ÐŸÑƒÑÑ‚Ð¾Ðµ Ð»Ð¸ Ð´ÐµÑ€ÐµÐ²Ð¾: " << a.IsEmpty() << endl;
+	cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð½Ð¾ÑƒÐ´Ð¾Ð²: " << a.GetNodesCount() << endl;
 
-	for (size_t i = 0; i < 15; i++) { int k = rand() %100; a.Add(k); cout << "Âñòàâèë " << k << endl; }
+	for (size_t i = 0; i < 15; i++) { int k = rand() %100; a.Add(k); cout << "Ð’ÑÑ‚Ð°Ð²Ð¸Ð» " << k << endl; }
 	//a.Add(1);a.Add(-1);a.Add(10); a.Add(7); a.Add(5); a.Add(4); a.Add(6); a.Add(8); a.Add(9); a.Add(11); a.Add(12);
 	//a.Add(1); a.Add(2); a.Add(3);a.Add(4); a.Add(5);
 
 
 	cout << endl;
-	cout << "Ïóñòîå ëè äåðåâî: " << a.IsEmpty() << endl;
-	cout << "Êîëè÷åñòâî íîóäîâ: " << a.GetNodesCount() << endl;
-	cout << "Âûñîòà: " << a.GetHeight() << endl;
+	cout << "ÐŸÑƒÑÑ‚Ð¾Ðµ Ð»Ð¸ Ð´ÐµÑ€ÐµÐ²Ð¾: " << a.IsEmpty() << endl;
+	cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð½Ð¾ÑƒÐ´Ð¾Ð²: " << a.GetNodesCount() << endl;
+	cout << "Ð’Ñ‹ÑÐ¾Ñ‚Ð°: " << a.GetHeight() << endl;
 
-	cout << "Íîóä ñ êëþ÷îì 10: " << a.Find(10) << endl;	
-	cout << "Ìèíèìàëüíûé êëþ÷: " << a.FindMin()->GetKey() << endl;
-	cout << "Ìàêèìàëüíûé êëþ÷: " << a.FindMax()->GetKey() << endl;
+	cout << "ÐÐ¾ÑƒÐ´ Ñ ÐºÐ»ÑŽÑ‡Ð¾Ð¼ 10: " << a.Find(10) << endl;	
+	cout << "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÐºÐ»ÑŽÑ‡: " << a.FindMin()->GetKey() << endl;
+	cout << "ÐœÐ°ÐºÐ¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÐºÐ»ÑŽÑ‡: " << a.FindMax()->GetKey() << endl;
 
-	cout << "Cïèñîê âñåõ êëþ÷åé: " << a.GetAllNodes() << endl;
+	cout << "CÐ¿Ð¸ÑÐ¾Ðº Ð²ÑÐµÑ… ÐºÐ»ÑŽÑ‡ÐµÐ¹: " << a.GetAllNodes() << endl;
 
-	//cout << "Êîëè÷åñòâî ýëåìåíòîâ â ïåðâîé ñòðîêå " << a.NodeLineToList(1).size() << endl;
+	//cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð² Ð¿ÐµÑ€Ð²Ð¾Ð¹ ÑÑ‚Ñ€Ð¾ÐºÐµ " << a.NodeLineToList(1).size() << endl;
 	a.PrettyPrint();
 
 	//auto ptr = make_shared<int>(10);
