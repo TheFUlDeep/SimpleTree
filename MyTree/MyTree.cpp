@@ -221,7 +221,7 @@ std::string MyTree<T>::GetAllNodes()const noexcept
 
 
 template<typename T>
-void MyTree<T>::PrettyPrintRecursive(const size_t h, MyList<MyTreeNode<T>*> prevline, size_t linenumber, size_t maxlen)const
+void MyTree<T>::PrettyPrintRecursive(const size_t *h, const size_t *maxlen, const char* spacestr, MyList<MyTreeNode<T>*> prevline, size_t linenumber)const
 {
 
 	if (head == nullptr) return;
@@ -233,19 +233,7 @@ void MyTree<T>::PrettyPrintRecursive(const size_t h, MyList<MyTreeNode<T>*> prev
 	//первая позиция, сдвиг, количество символов
 	//size_t symbolscount = pow(2,linenumber-1);
 
-	//это надо считать только 1 раз
-	if (maxlen == 0)
-	{
-		size_t maxlenmax = std::to_string(FindMax()->key).length();
-		size_t maxlenmin = std::to_string(FindMin()->key).length();
-		maxlenmax > maxlenmin ? maxlen = maxlenmax : maxlen = maxlenmin;
-	}
-
-	//этот стринг тоже надо бы только 1 раз считать, но я не хочу добавлять еще один аргумент
-	std::string spacestr = "";
-	for (size_t i = 0; i < maxlen; i++) spacestr += " ";
-
-	size_t firstpos = (size_t)pow(2, h - linenumber);
+	size_t firstpos = (size_t)pow(2, *h - linenumber);
 	size_t space = firstpos * 2;
 
 
@@ -256,7 +244,7 @@ void MyTree<T>::PrettyPrintRecursive(const size_t h, MyList<MyTreeNode<T>*> prev
 		if (val == nullptr) { prevline.pop_front(); for (size_t i = 1; i < space + 1; i++) std::cout << spacestr; curlist.push_back(nullptr); curlist.push_back(nullptr); continue; }
 		std::cout << val->key;
 		size_t vallen = std::to_string(val->key).length();
-		if (vallen < maxlen) for (size_t i = 0; i < maxlen - vallen; i++) std::cout << " ";
+		if (vallen < *maxlen) for (size_t i = 0; i < *maxlen - vallen; i++) std::cout << " ";
 		for (size_t i = 1; i < space; i++) std::cout << spacestr;
 		if (val->left != nullptr || val->right != nullptr) needDeeper = true;
 		curlist.push_back(val->left.get());
@@ -265,12 +253,21 @@ void MyTree<T>::PrettyPrintRecursive(const size_t h, MyList<MyTreeNode<T>*> prev
 	}
 	for (size_t i = 0; i < firstpos; i++) std::cout << "\n";
 
-	if (needDeeper) PrettyPrintRecursive(h,curlist,linenumber+1);
+	if (needDeeper) PrettyPrintRecursive(h, maxlen,spacestr,curlist,linenumber+1);
 }
 
 
 template<typename T>
 void MyTree<T>::PrettyPrint() const noexcept
 {
-	PrettyPrintRecursive(GetHeight());
+	size_t maxlen;
+	size_t maxlenmax = std::to_string(FindMax()->key).length();
+	size_t maxlenmin = std::to_string(FindMin()->key).length();
+	maxlenmax > maxlenmin ? maxlen = maxlenmax : maxlen = maxlenmin;
+
+	std::string spacestr = "";
+	for (size_t i = 0; i < maxlen; i++) spacestr += " ";
+
+	size_t h = GetHeight();
+	PrettyPrintRecursive(&h, &maxlen, spacestr.c_str());
 }
