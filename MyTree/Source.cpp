@@ -49,6 +49,13 @@ int main()
 	cout << b << " " << c << "\t" << d << " " << f << "\t" << g << " " << h << endl;
 
 
+	cout << "\nПробую получить начальное звено через какой-то из концов\nПолучилось ли найти: ";
+	auto end = a.FindMax(a.GetHead());
+	auto hei = a.GetHeight()-1;
+	for (size_t i = 0; i < hei; i++) end = end->GetParentNode();
+	cout << (end == a.GetHead()) << endl;
+
+
 	system("pause");
 	return 0;
 }
