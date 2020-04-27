@@ -206,7 +206,7 @@ MyList<T> MyTree<T>::AllKeysToListRerusive(const MyTreeNode<T>* node, MyList<T>*
 
 
 template<typename T>
-std::string MyTree<T>::GetAllNodes()const
+std::string MyTree<T>::GetAllNodes()const noexcept
 {
 	std::string str = "";
 	MyList<T> lst = AllKeysToListRerusive(head.get());

@@ -63,7 +63,7 @@ public:
 	MyTreeNode<T>* GetLeftNode(const MyTreeNode<T>*)const noexcept;
 	MyTreeNode<T>* GetRightNode(const MyTreeNode<T>*)const noexcept;
 
-	std::string GetAllNodes()const;
+	std::string GetAllNodes()const noexcept;
 
 
 	bool IsEmpty()const noexcept;
