@@ -39,6 +39,15 @@ int main()
 	cout << "Cписок всех ключей: " << a.GetAllNodes() << endl;
 	a.PrettyPrint();
 
+	cout << "\n\n\nПолучение разных звеньев разными способами\n";
+	auto b = a.GetHead()->GetLeftNode();
+	auto c = a.GetLeftNode(a.GetHead());
+	auto d = a.GetHead()->GetRightNode();
+	auto f = a.GetRightNode(a.GetHead());
+	auto g = a.GetHead()->GetParentNode();
+	auto h = a.GetParentNode(a.GetHead());
+	cout << b << " " << c << "\t" << d << " " << f << "\t" << g << " " << h << endl;
+
 
 	system("pause");
 	return 0;

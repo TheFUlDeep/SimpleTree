@@ -13,6 +13,15 @@ MyTreeNode<T>::~MyTreeNode() = default;
 template<typename T>
 T& MyTreeNode<T>::GetKey() { return key; }
 
+template<typename T>
+MyTreeNode<T>* MyTreeNode<T>::GetParentNode() const noexcept { return parent; }
+
+template<typename T>
+MyTreeNode<T>* MyTreeNode<T>::GetLeftNode() const noexcept { return left.get(); }
+
+template<typename T>
+MyTreeNode<T>* MyTreeNode<T>::GetRightNode() const noexcept { return right.get(); }
+
 
 template<typename T>
 MyTree<T>::MyTree() = default;
@@ -171,11 +180,12 @@ MyTreeNode<T>* MyTree<T>::FindMax(MyTreeNode<T>* node)const noexcept
 	return curnode;
 }
 
+
 template<typename T>
-MyTreeNode<T>* MyTree<T>::GetParentNode(const MyTreeNode<T>* node) const noexcept
+MyTreeNode<T>* MyTree<T>::GetRightNode(const MyTreeNode<T>* node) const noexcept 
 {
 	if (node == nullptr) return nullptr;
-	return node->parent;
+	return node->right.get();
 }
 
 template<typename T>
@@ -186,12 +196,11 @@ MyTreeNode<T>* MyTree<T>::GetLeftNode(const MyTreeNode<T>* node) const noexcept
 }
 
 template<typename T>
-MyTreeNode<T>* MyTree<T>::GetRightNode(const MyTreeNode<T>* node) const noexcept
+MyTreeNode<T>* MyTree<T>::GetParentNode(const MyTreeNode<T>* node) const noexcept
 {
 	if (node == nullptr) return nullptr;
-	return node->right.get();
+	return node->parent;
 }
-
 
 template<typename T>
 MyList<T> MyTree<T>::AllKeysToListRerusive(const MyTreeNode<T>* node, MyList<T>* lst)const

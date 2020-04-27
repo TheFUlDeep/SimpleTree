@@ -23,6 +23,10 @@ public:
 	MyTreeNode(const T, MyTreeNode<T>* = nullptr, const std::shared_ptr<MyTreeNode<T>>& = nullptr, const std::shared_ptr<MyTreeNode<T>>& = nullptr);
 	~MyTreeNode();
 	T& GetKey();
+
+	MyTreeNode<T>* GetParentNode()const noexcept;
+	MyTreeNode<T>* GetLeftNode()const noexcept;
+	MyTreeNode<T>* GetRightNode()const noexcept;
 };
 
 
@@ -59,12 +63,11 @@ public:
 	MyTreeNode<T>* FindMin(MyTreeNode<T>*)const noexcept;//аргумент не константный патамушта
 	MyTreeNode<T>* FindMax(MyTreeNode<T>*)const noexcept;//аргумент не константный патамушта
 
+	std::string GetAllNodes()const noexcept;
+
 	MyTreeNode<T>* GetParentNode(const MyTreeNode<T>*)const noexcept;
 	MyTreeNode<T>* GetLeftNode(const MyTreeNode<T>*)const noexcept;
 	MyTreeNode<T>* GetRightNode(const MyTreeNode<T>*)const noexcept;
-
-	std::string GetAllNodes()const noexcept;
-
 
 	bool IsEmpty()const noexcept;
 	size_t GetNodesCount()const;
