@@ -39,7 +39,7 @@ private:
 	size_t nodesCount = 0;
 	
 	//поиск по ключу, но только ниже указателя, который передается вторым аргументом
-	MyTreeNode<T>* RecursiveFind(const T, MyTreeNode<T>* = nullptr)const;
+	MyTreeNode<T>* RecursiveFind(const T&, MyTreeNode<T>* = nullptr)const;
 	size_t RecursiveGetHeight(const MyTreeNode<T>* = nullptr)const;
 	//std::shared_ptr<T*> AllNodesToArray();
 	MyList<T> AllKeysToListRerusive(const MyTreeNode<T>* = nullptr, MyList<T>* = nullptr)const;
@@ -52,11 +52,11 @@ public:
 
 	MyTree<T>& operator=(const MyTree<T>&)noexcept;
 
-	void Add(T)noexcept;
+	void Add(const T&)noexcept;
 	//void InsertToLeft(const MyTreeNode<T>*);
 	//void InsertToRight(const MyTreeNode<T>*);
 
-	MyTreeNode<T>* Find(const T)const noexcept;
+	MyTreeNode<T>* Find(const T&)const noexcept;
 
 	void RemoveNode(const MyTreeNode<T>*) noexcept;
 

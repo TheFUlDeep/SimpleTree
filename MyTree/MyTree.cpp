@@ -44,7 +44,7 @@ size_t MyTree<T>::GetNodesCount()const { return nodesCount; }
 
 
 template<typename T>
-void MyTree<T>::Add(T k)noexcept
+void MyTree<T>::Add(const T &k)noexcept
 {
 	if (head == nullptr) head = std::make_shared<MyTreeNode<T>>(k);
 	else
@@ -67,7 +67,7 @@ void MyTree<T>::Add(T k)noexcept
 
 
 template<typename T>
-MyTreeNode<T>* MyTree<T>::RecursiveFind(const T k, MyTreeNode<T>* node)const
+MyTreeNode<T>* MyTree<T>::RecursiveFind(const T &k, MyTreeNode<T>* node)const
 {
 	if (node == nullptr) return nullptr;
 	if (node->key == k) return node;
@@ -81,7 +81,7 @@ MyTreeNode<T>* MyTree<T>::RecursiveFind(const T k, MyTreeNode<T>* node)const
 
 
 template<typename T>
-MyTreeNode<T>* MyTree<T>::Find(const T k)const noexcept { return RecursiveFind(k,head.get()); }
+MyTreeNode<T>* MyTree<T>::Find(const T &k)const noexcept { return RecursiveFind(k,head.get()); }
 
 
 template<typename T>
