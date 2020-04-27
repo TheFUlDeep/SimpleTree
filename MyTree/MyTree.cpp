@@ -153,20 +153,20 @@ void MyTree<T>::RemoveNode(const MyTreeNode<T>* node)noexcept
 
 
 template<typename T>
-MyTreeNode<T>* MyTree<T>::FindMin()const noexcept
+MyTreeNode<T>* MyTree<T>::FindMin(MyTreeNode<T>* node)const noexcept
 {
-	if (head == nullptr) return nullptr;
-	MyTreeNode<T> *curnode = head.get();
+	if (node == nullptr) return nullptr;
+	MyTreeNode<T> *curnode = node;
 	while (curnode->left != nullptr) curnode = curnode->left.get();
 	return curnode;
 }
 
 
 template<typename T>
-MyTreeNode<T>* MyTree<T>::FindMax()const noexcept
+MyTreeNode<T>* MyTree<T>::FindMax(MyTreeNode<T>* node)const noexcept
 {
-	if (head == nullptr) return nullptr;
-	MyTreeNode<T> *curnode = head.get();
+	if (node == nullptr) return nullptr;
+	MyTreeNode<T> *curnode = node;
 	while (curnode->right != nullptr) curnode = curnode->right.get();
 	return curnode;
 }
@@ -261,8 +261,8 @@ template<typename T>
 void MyTree<T>::PrettyPrint() const noexcept
 {
 	size_t maxlen;
-	size_t maxlenmax = std::to_string(FindMax()->key).length();
-	size_t maxlenmin = std::to_string(FindMin()->key).length();
+	size_t maxlenmax = std::to_string(FindMax(head.get())->key).length();
+	size_t maxlenmin = std::to_string(FindMin(head.get())->key).length();
 	maxlenmax > maxlenmin ? maxlen = maxlenmax : maxlen = maxlenmin;
 
 	std::string spacestr = "";

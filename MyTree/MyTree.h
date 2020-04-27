@@ -56,8 +56,8 @@ public:
 
 	void RemoveNode(const MyTreeNode<T>*) noexcept;
 
-	MyTreeNode<T>* FindMin()const noexcept;
-	MyTreeNode<T>* FindMax()const noexcept;
+	MyTreeNode<T>* FindMin(MyTreeNode<T>*)const noexcept;//аргумент не константный патамушта
+	MyTreeNode<T>* FindMax(MyTreeNode<T>*)const noexcept;//аргумент не константный патамушта
 
 	MyTreeNode<T>* GetParentNode(const MyTreeNode<T>*)const noexcept;
 	MyTreeNode<T>* GetLeftNode(const MyTreeNode<T>*)const noexcept;

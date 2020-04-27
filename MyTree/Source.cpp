@@ -25,8 +25,8 @@ int main()
 	cout << "Высота: " << a.GetHeight() << endl;
 
 	//cout << "Ноуд с ключом 10: " << a.Find(10) << endl;	
-	cout << "Минимальный ключ: " << a.FindMin()->GetKey() << endl;
-	cout << "Макимальный ключ: " << a.FindMax()->GetKey() << endl;
+	cout << "Минимальный ключ: " << a.FindMin(a.GetHead())->GetKey() << endl;
+	cout << "Макимальный ключ: " << a.FindMax(a.GetHead())->GetKey() << endl;
 
 	cout << "Cписок всех ключей: " << a.GetAllNodes() << endl;
 
