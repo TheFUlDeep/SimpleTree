@@ -120,13 +120,13 @@ void MyTree<T>::RemoveNode(const MyTreeNode<T>* node)noexcept
 		}
 		else if (nodeleft != nullptr && noderight == nullptr)//если есть только левый ноуд
 		{
-			if (parentleft) parentnode->left = node->left;
-			else parentnode->right = node->left;
+			if (parentleft) { parentnode->left = node->left; parentnode->left->parent = parentnode; }
+			else { parentnode->right = node->left; parentnode->right->parent = parentnode; }
 		}
 		else if (nodeleft == nullptr && noderight != nullptr)//если есть только правый ноуд
 		{
-			if (parentleft) parentnode->left = node->right;
-			else parentnode->right = node->right;
+			if (parentleft) { parentnode->left = node->right; parentnode->left->parent = parentnode; }
+			else { parentnode->right = node->right; parentnode->right->parent = parentnode; }
 		}
 		else//если есть оба ноуда 
 		{
@@ -134,12 +134,13 @@ void MyTree<T>::RemoveNode(const MyTreeNode<T>* node)noexcept
 
 			auto rightnode = node->right;
 
-			if (parentleft) parentnode->left = node->left;
-			else parentnode->right = node->left;
+			if (parentleft) { parentnode->left = node->left; parentnode->left->parent = parentnode; }
+			else { parentnode->right = node->left; parentnode->right->parent = parentnode; }
 
 			MyTreeNode<T> *curnode = parentnode;
 			while (curnode->right != nullptr) curnode = curnode->right.get();
 			curnode->right = rightnode;
+			rightnode->parent = curnode;
 		}
 	}
 	else
@@ -155,6 +156,7 @@ void MyTree<T>::RemoveNode(const MyTreeNode<T>* node)noexcept
 			MyTreeNode<T> *curnode = head.get();
 			while (curnode->right != nullptr) curnode = curnode->right.get();
 			curnode->right = rightnode;
+			rightnode->parent = curnode;
 		}
 	}
 	nodesCount--;
