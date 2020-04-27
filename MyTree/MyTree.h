@@ -16,11 +16,12 @@ class MyTreeNode
 private:
 	std::shared_ptr<MyTreeNode<T>> left;
 	std::shared_ptr<MyTreeNode<T>> right;
-	MyTreeNode<T> *parent;
+	MyTreeNode<T> *parent;//обычный указатель для того, чтобы 2 shared_ptr'a не ссылались друга на друга
 	T key;
 
 public:
 	MyTreeNode(const T, MyTreeNode<T>* = nullptr, const std::shared_ptr<MyTreeNode<T>>& = nullptr, const std::shared_ptr<MyTreeNode<T>>& = nullptr);
+	~MyTreeNode();
 	T& GetKey();
 };
 
@@ -45,30 +46,31 @@ public:
 	~MyTree();
 	//MyTree& operator=(MyTree&&) = default;
 
-	MyTree<T>& operator=(const MyTree<T>&);
+	MyTree<T>& operator=(const MyTree<T>&)noexcept;
 
-	void Add(T);
+	void Add(T)noexcept;
 	//void InsertToLeft(const MyTreeNode<T>*);
 	//void InsertToRight(const MyTreeNode<T>*);
 
-	MyTreeNode<T>* Find(const T)const;
+	MyTreeNode<T>* Find(const T)const noexcept;
 
-	void RemoveNode(const MyTreeNode<T>*);
+	void RemoveNode(const MyTreeNode<T>*) noexcept;
 
-	MyTreeNode<T>* FindMin()const;
-	MyTreeNode<T>* FindMax()const;
+	MyTreeNode<T>* FindMin()const noexcept;
+	MyTreeNode<T>* FindMax()const noexcept;
 
-	MyTreeNode<T>* GetParentNode(const MyTreeNode<T>*)const;
-	MyTreeNode<T>* GetLeftNode(const MyTreeNode<T>*)const;
-	MyTreeNode<T>* GetRightNode(const MyTreeNode<T>*)const;
+	MyTreeNode<T>* GetParentNode(const MyTreeNode<T>*)const noexcept;
+	MyTreeNode<T>* GetLeftNode(const MyTreeNode<T>*)const noexcept;
+	MyTreeNode<T>* GetRightNode(const MyTreeNode<T>*)const noexcept;
 
 	std::string GetAllNodes()const;
 
 
-	bool IsEmpty()const;
+	bool IsEmpty()const noexcept;
 	size_t GetNodesCount()const;
-	size_t GetHeight()const;
+	size_t GetHeight()const noexcept;
+	MyTreeNode<T>* GetHead()const noexcept;
 
 
-	void PrettyPrint()const;
+	void PrettyPrint()const noexcept;
 };

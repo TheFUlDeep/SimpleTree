@@ -6,6 +6,9 @@ MyTreeNode<T>::MyTreeNode(const T key, MyTreeNode<T> *prnt, const std::shared_pt
 	parent = prnt; left = lft; right = rght; this->key = key;
 }
 
+template<typename T>
+MyTreeNode<T>::~MyTreeNode() = default;
+
 
 template<typename T>
 T& MyTreeNode<T>::GetKey() { return key; }
@@ -20,11 +23,11 @@ MyTree<T>::~MyTree() = default;
 
 
 template<typename T>
-MyTree<T>& MyTree<T>::operator=(const MyTree<T> &other) { nodesCount = other->nodesCount; head = other.head; }//TODO возможно shared_ptr сам нормально скопируется. Надо проверить
+MyTree<T>& MyTree<T>::operator=(const MyTree<T> &other) noexcept { nodesCount = other->nodesCount; head = other.head; }//TODO возможно shared_ptr сам нормально скопируется. Надо проверить
 
 
 template<typename T>
-bool MyTree<T>::IsEmpty()const { return nodesCount == 0; }
+bool MyTree<T>::IsEmpty()const noexcept { return nodesCount == 0; }
 
 
 template<typename T>
@@ -32,7 +35,7 @@ size_t MyTree<T>::GetNodesCount()const { return nodesCount; }
 
 
 template<typename T>
-void MyTree<T>::Add(T k)
+void MyTree<T>::Add(T k)noexcept
 {
 	if (head == nullptr) head = std::make_shared<MyTreeNode<T>>(k);
 	else
@@ -69,7 +72,7 @@ MyTreeNode<T>* MyTree<T>::RecursiveFind(const T k, MyTreeNode<T>* node)const
 
 
 template<typename T>
-MyTreeNode<T>* MyTree<T>::Find(const T k)const { return RecursiveFind(k,head.get()); }
+MyTreeNode<T>* MyTree<T>::Find(const T k)const noexcept { return RecursiveFind(k,head.get()); }
 
 
 template<typename T>
@@ -81,11 +84,14 @@ size_t MyTree<T>::RecursiveGetHeight(const MyTreeNode<T>* node)const
 
 
 template<typename T>
-size_t MyTree<T>::GetHeight()const { return RecursiveGetHeight(head.get()); }
+size_t MyTree<T>::GetHeight()const noexcept{ return RecursiveGetHeight(head.get()); }
+
+template<typename T>
+MyTreeNode<T>* MyTree<T>::GetHead() const noexcept { return head.get(); }
 
 
 template<typename T>
-void MyTree<T>::RemoveNode(const MyTreeNode<T>* node)
+void MyTree<T>::RemoveNode(const MyTreeNode<T>* node)noexcept
 {
 	if (node == nullptr) return;
 
@@ -94,7 +100,7 @@ void MyTree<T>::RemoveNode(const MyTreeNode<T>* node)
 
 	if (node->parent != nullptr)//если есть роидетль (если это не голова)
 	{
-		MyTreeNode<T> *parentnode = node->parent.get();
+		MyTreeNode<T> *parentnode = node->parent;
 
 		bool parentleft = parentnode->left.get() == node; //определяю, этот ноуд слева от родителя или справа
 
@@ -137,7 +143,7 @@ void MyTree<T>::RemoveNode(const MyTreeNode<T>* node)
 			//вместо удаленного ноуда вставляю левый. Но можно было правый. 
 			auto rightnode = node->right;
 			head = head->left;
-			MyTreeNode<T> *curnode = head;
+			MyTreeNode<T> *curnode = head.get();
 			while (curnode->right != nullptr) curnode = curnode->right.get();
 			curnode->right = rightnode;
 		}
@@ -147,7 +153,7 @@ void MyTree<T>::RemoveNode(const MyTreeNode<T>* node)
 
 
 template<typename T>
-MyTreeNode<T>* MyTree<T>::FindMin()const
+MyTreeNode<T>* MyTree<T>::FindMin()const noexcept
 {
 	if (head == nullptr) return nullptr;
 	MyTreeNode<T> *curnode = head.get();
@@ -157,12 +163,33 @@ MyTreeNode<T>* MyTree<T>::FindMin()const
 
 
 template<typename T>
-MyTreeNode<T>* MyTree<T>::FindMax()const
+MyTreeNode<T>* MyTree<T>::FindMax()const noexcept
 {
 	if (head == nullptr) return nullptr;
 	MyTreeNode<T> *curnode = head.get();
 	while (curnode->right != nullptr) curnode = curnode->right.get();
 	return curnode;
+}
+
+template<typename T>
+MyTreeNode<T>* MyTree<T>::GetParentNode(const MyTreeNode<T>* node) const noexcept
+{
+	if (node == nullptr) return nullptr;
+	return node->parent;
+}
+
+template<typename T>
+MyTreeNode<T>* MyTree<T>::GetLeftNode(const MyTreeNode<T>* node) const noexcept
+{
+	if (node == nullptr) return nullptr;
+	return node->left.get();
+}
+
+template<typename T>
+MyTreeNode<T>* MyTree<T>::GetRightNode(const MyTreeNode<T>* node) const noexcept
+{
+	if (node == nullptr) return nullptr;
+	return node->right.get();
 }
 
 
@@ -213,9 +240,10 @@ void MyTree<T>::PrettyPrintRecursive(const size_t h, MyList<MyTreeNode<T>*> prev
 		size_t maxlenmin = std::to_string(FindMin()->key).length();
 		maxlenmax > maxlenmin ? maxlen = maxlenmax : maxlen = maxlenmin;
 	}
+
+	//этот стринг тоже надо бы только 1 раз считать, но я не хочу добавлять еще один аргумент
 	std::string spacestr = "";
 	for (size_t i = 0; i < maxlen; i++) spacestr += " ";
-
 
 	size_t firstpos = (size_t)pow(2, h - linenumber);
 	size_t space = firstpos * 2;
@@ -235,14 +263,14 @@ void MyTree<T>::PrettyPrintRecursive(const size_t h, MyList<MyTreeNode<T>*> prev
 		curlist.push_back(val->right.get());
 		prevline.pop_front();
 	}
-	for (size_t i = 0; i < maxlen; i++) std::cout << "\n";
+	for (size_t i = 0; i < firstpos; i++) std::cout << "\n";
 
 	if (needDeeper) PrettyPrintRecursive(h,curlist,linenumber+1);
 }
 
 
 template<typename T>
-void MyTree<T>::PrettyPrint() const
+void MyTree<T>::PrettyPrint() const noexcept
 {
 	PrettyPrintRecursive(GetHeight());
 }

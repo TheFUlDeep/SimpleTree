@@ -28,8 +28,8 @@
 		std::shared_ptr<MyListNode<T>> head = nullptr;
 		MyListNode<T>* end = nullptr;
 		size_t len = 0;
-
-		void SwapNodes(MyListNode<T> *a, MyListNode<T> *b)
+	public:
+		void SwapNodes(MyListNode<T> *a, MyListNode<T> *b)noexcept
 		{
 			if (a == b || a == nullptr || b == nullptr) return;
 			std::shared_ptr<MyListNode<T>> atmp(nullptr); std::shared_ptr<MyListNode<T>> btmp(nullptr);
@@ -81,32 +81,32 @@
 		MyList(const MyList<T>& other) { len = other.len; end = other.end; head = other.head; }
 		//MyList(const MyList<T> other) { len = other.len; end = other.end; head = other.head; }
 
-		size_t size()const { return len; }
+		size_t size()const noexcept { return len; }
 
-		bool empty()const { return len == 0; }
+		bool empty()const noexcept { return len == 0; }
 
-		void push_back(const T val)
+		void push_back(const T val)noexcept
 		{
 			if (len == 0) { *this = MyList<T>(val); }
 			else { end->nextnode = std::make_shared<MyListNode<T>>(); end->nextnode->value = val; end->nextnode->prevnode = end; end = end->nextnode.get(); len++; }
 		}
 
-		T front()
+		T front()const
 		{
 			if (head == nullptr) throw std::exception("can't pop");
 			return head->value;
 		}
 
-		void pop_front()
+		void pop_front()noexcept
 		{
-			if (head == nullptr) throw std::exception("can't pop");
+			if (head == nullptr) return;
 			head = head->nextnode;// shared_ptr сам очистит за собой
 			len--;
 		}
 
-		T& operator[](const size_t n)const { return GetNode(n)->value; }
+		T& operator[](const size_t n)const { if (n >= len) throw std::exception("wrong index"); return GetNode(n)->value; }
 
-		void SortMinMax()//чуть быстрее, чем BubbleSort
+		void SortMinMax()noexcept
 		{
 			if (head == nullptr) return;
 			for (size_t i = 0; i < len; i++)
@@ -140,7 +140,7 @@
 			}
 		}
 
-		void BubbleSort()
+		void BubbleSort()noexcept
 		{
 			MyListNode<T>* curnode = head.get();
 			while (curnode != nullptr)
@@ -150,10 +150,14 @@
 				{
 					if (curnode->value > curnode2->value)
 					{
-						//свапаю только значения, а не сами ноуды. Если value будут какими-то очень большими, то лучше свапать имнено сами ноуды. Еще можно исопльзовать std::move
-						T tmp = curnode->value;
-						curnode->value = curnode2->value;
-						curnode2->value = tmp;
+						//свап только значений
+						//T tmp = curnode->value;
+						//curnode->value = curnode2->value;
+						//curnode2->value = tmp;
+
+						//свап ноудов
+						SwapNodes(curnode, curnode2);
+						auto tmp = curnode; curnode = curnode2; curnode2 = tmp;//обратно свапаю локальные указатели, так как ноуды поменялись местами, а мне надо идти по порядку
 					}
 					curnode2 = curnode2->nextnode.get();
 				}
@@ -180,28 +184,28 @@
 		}
 
 
-		MyListNode<T>* GetHead()const { return head.get(); }
+		MyListNode<T>* GetHead()const noexcept { return head.get(); }
 
-		MyListNode<T>* GetNode(const size_t n)const
+		MyListNode<T>* GetNode(const size_t n)const noexcept
 		{
 			auto curnode = head;
-			if (curnode == nullptr) throw std::exception("can't get head");
+			if (curnode == nullptr) return nullptr;
 			for (size_t i = 0; i < n; i++)//буду проходить на 1 меньше указанного индекса
 			{
 				curnode = curnode->nextnode;
-				if (curnode == nullptr) throw std::exception("can't get node");
+				if (curnode == nullptr) return nullptr;
 			}
 			return curnode.get();
 		}
 
-		MyListNode<T>* GetNodeR(const size_t n)const
+		MyListNode<T>* GetNodeR(const size_t n)const noexcept
 		{
 			auto curnode = end;
-			if (curnode == nullptr) throw std::exception("can't get head");
+			if (curnode == nullptr) return nullptr;
 			for (size_t i = 0; i < n; i++)//буду проходить на 1 меньше указанного индекса
 			{
 				curnode = curnode->prevnode;
-				if (curnode == nullptr) throw std::exception("can't get node");
+				if (curnode == nullptr) return nullptr;
 			}
 			return curnode;
 		}
