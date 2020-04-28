@@ -215,13 +215,24 @@ MyList<T> MyTree<T>::AllKeysToListRerusive(const MyTreeNode<T>* node, MyList<T>*
 	return *lst;
 }
 
+template<typename T>
+MyList<T> MyTree<T>::AllKeysToListRerusiveSorted(const MyTreeNode<T>* node, MyList<T>* lst)const
+{
+	if (lst == nullptr) lst = &MyList<T>();
+	if (node == nullptr) return *lst;
+	AllKeysToListRerusiveSorted(node->left.get(), lst);
+	lst->push_back(node->key);
+	AllKeysToListRerusiveSorted(node->right.get(), lst);
+	return *lst;
+}
+
 
 template<typename T>
 std::string MyTree<T>::GetAllNodes()const noexcept
 {
 	std::string str = "";
-	MyList<T> lst = AllKeysToListRerusive(head.get());
-	lst.BubbleSort();
+	MyList<T> lst = AllKeysToListRerusiveSorted(head.get());
+	//lst.BubbleSort();
 	while (!lst.empty())
 	{
 		str += (" " + std::to_string(lst.front()));

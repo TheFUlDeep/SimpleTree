@@ -43,6 +43,7 @@ private:
 	size_t RecursiveGetHeight(const MyTreeNode<T>* = nullptr)const;
 	//std::shared_ptr<T*> AllNodesToArray();
 	MyList<T> AllKeysToListRerusive(const MyTreeNode<T>* = nullptr, MyList<T>* = nullptr)const;
+	MyList<T> AllKeysToListRerusiveSorted(const MyTreeNode<T>* = nullptr, MyList<T>* = nullptr)const;
 	void PrettyPrintRecursive(const size_t*, const size_t*, const char*, MyList<MyTreeNode<T>*> = MyList<MyTreeNode<T>*>(), size_t linenumber = 1)const;
 
 public:
