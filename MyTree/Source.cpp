@@ -3,6 +3,8 @@
 
 using namespace std;
 
+#define add a.Add(
+
 int main()
 {
 	setlocale(LC_ALL, "ru");
@@ -13,11 +15,12 @@ int main()
 	cout << "Количество ноудов: " << a.GetNodesCount() << endl;
 	cout << "Высота: " << a.GetHeight() << endl;
 	cout << "Cписок всех ключей: " << a.GetAllNodes() << endl;
-	//for (size_t i = 0; i < 15; i++) { int k = rand() %100; a.Add(k); cout << "Вставил " << k << endl; }
-	a.Add(1);a.Add(-1);a.Add(11); a.Add(7); a.Add(5); a.Add(4); a.Add(6); a.Add(9); a.Add(10); a.Add(16); a.Add(13); a.Add(8); a.Add(12); a.Add(14); a.Add(18); a.Add(17); a.Add(19);
+	for (size_t i = 0; i < 15; i++) { int k = rand() %100; a.Add(k); cout << "Вставил " << k << endl; }
+	//a.Add(1);a.Add(-1);a.Add(11); a.Add(7); a.Add(5); a.Add(4); a.Add(6); a.Add(9); a.Add(10); a.Add(16); a.Add(13); a.Add(8); a.Add(12); a.Add(14); a.Add(18); a.Add(17); a.Add(19);
 
-	a.Add(1); a.Add(1); a.Add(1); a.Add(1); a.Add(1);//ничего не произойдет
-
+	//a.Add(0);
+	//add 1); add 2); add 3); add 4); add 5);
+	//a.Add(-1); a.Add(-2); a.Add(-3); a.Add(-4); a.Add(-5);
 
 	cout << endl;
 	cout << "Пустое ли дерево: " << a.IsEmpty() << endl;
@@ -47,13 +50,6 @@ int main()
 	auto g = a.GetHead()->GetParentNode();
 	auto h = a.GetParentNode(a.GetHead());
 	cout << b << " " << c << "\t" << d << " " << f << "\t" << g << " " << h << endl;
-
-
-	cout << "\nПробую получить начальное звено через какой-то из концов\nПолучилось ли найти: ";
-	auto end = a.FindMax(a.GetHead());
-	auto hei = a.GetHeight()-1;
-	for (size_t i = 0; i < hei; i++) end = end->GetParentNode();
-	cout << (end == a.GetHead()) << endl;
 
 
 	system("pause");

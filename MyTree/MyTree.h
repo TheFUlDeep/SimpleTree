@@ -34,6 +34,7 @@ public:
 template<typename T>
 class MyTree
 {
+	constexpr enum nodepos{left,right,nil};
 private:
 	std::shared_ptr<MyTreeNode<T>> head = nullptr;
 	size_t nodesCount = 0;
@@ -41,10 +42,17 @@ private:
 	//поиск по ключу, но только ниже указателя, который передается вторым аргументом
 	MyTreeNode<T>* RecursiveFind(const T&, MyTreeNode<T>* = nullptr)const;
 	size_t RecursiveGetHeight(const MyTreeNode<T>* = nullptr)const;
+	size_t RecursiveGetHeightMin(const MyTreeNode<T>* = nullptr)const;
 	//std::shared_ptr<T*> AllNodesToArray();
 	MyList<T> AllKeysToListRerusive(const MyTreeNode<T>* = nullptr, MyList<T>* = nullptr)const;
 	MyList<T> AllKeysToListRerusiveSorted(const MyTreeNode<T>* = nullptr, MyList<T>* = nullptr)const;
 	void PrettyPrintRecursive(const size_t*, const size_t*, const char*, MyList<MyTreeNode<T>*> = MyList<MyTreeNode<T>*>(), size_t linenumber = 1)const;
+	int IsNodeLeft(MyTreeNode<T>* = nullptr);
+	std::shared_ptr<MyTreeNode<T>>& GetNodeSharedPtr(MyTreeNode<T>* node);
+
+	void Balance(MyTreeNode<T>* = nullptr);//если исопльзовать эту функцию не при добавлении нового ноуда, то некоторые ноуды потеряются :D
+
+	void SwapNodes(MyTreeNode<T>*, MyTreeNode<T>*);
 
 public:
 	MyTree();
@@ -71,7 +79,7 @@ public:
 	MyTreeNode<T>* GetRightNode(const MyTreeNode<T>*)const noexcept;
 
 	bool IsEmpty()const noexcept;
-	size_t GetNodesCount()const;
+	size_t GetNodesCount()const noexcept;
 	size_t GetHeight()const noexcept;
 	MyTreeNode<T>* GetHead()const noexcept;
 

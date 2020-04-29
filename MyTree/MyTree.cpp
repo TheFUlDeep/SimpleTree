@@ -40,7 +40,7 @@ bool MyTree<T>::IsEmpty()const noexcept { return nodesCount == 0; }
 
 
 template<typename T>
-size_t MyTree<T>::GetNodesCount()const { return nodesCount; }
+size_t MyTree<T>::GetNodesCount()const noexcept { return nodesCount; }
 
 
 template<typename T>
@@ -58,9 +58,12 @@ void MyTree<T>::Add(const T &k)noexcept
 			else if (k < curnode->key) curnode = curnode->left.get();
 			else curnode = curnode->right.get();
 		}
-
-		if (k < prevnode->key) prevnode->left = std::make_shared<MyTreeNode<T>>(k,prevnode);
-		else prevnode->right = std::make_shared<MyTreeNode<T>>(k, prevnode);
+		auto newnode = std::make_shared<MyTreeNode<T>>(k, prevnode);
+		if (k < prevnode->key) prevnode->left = newnode;
+		else prevnode->right = newnode;
+		//PrettyPrint();
+		if (newnode->parent != nullptr) Balance(newnode->parent->parent);
+		//PrettyPrint();
 	}
 	nodesCount++;
 }
@@ -282,6 +285,7 @@ void MyTree<T>::PrettyPrintRecursive(const size_t *h, const size_t *maxlen, cons
 template<typename T>
 void MyTree<T>::PrettyPrint() const noexcept
 {
+	std::cout << "\n";
 	size_t maxlen;
 	size_t maxlenmax = std::to_string(FindMax(head.get())->key).length();
 	size_t maxlenmin = std::to_string(FindMin(head.get())->key).length();
@@ -292,4 +296,214 @@ void MyTree<T>::PrettyPrint() const noexcept
 
 	size_t h = GetHeight();
 	PrettyPrintRecursive(&h, &maxlen, spacestr.c_str());
+}
+
+
+
+
+template<typename T>
+int MyTree<T>::IsNodeLeft(MyTreeNode<T>* node)
+{
+	if (node == nullptr || node->parent == nullptr) return MyTree::nodepos::nil;
+	else if (node->parent->left.get() == node) return MyTree::nodepos::left;
+	else return MyTree::nodepos::right;
+}
+
+template<typename T>
+std::shared_ptr<MyTreeNode<T>>& MyTree<T>::GetNodeSharedPtr(MyTreeNode<T>* node)
+{
+	std::shared_ptr<MyTreeNode<T>> ptr(nullptr);
+	if (node == nullptr) return ptr;
+	int isleft = IsNodeLeft(node);
+	if (isleft == MyTree::nodepos::left) return node->parent->left;
+	else if (isleft == MyTree::nodepos::right) return node->parent->right;
+	else return head;
+}
+
+template<typename T>
+void MyTree<T>::SwapNodes(MyTreeNode<T>* a, MyTreeNode<T>* b)
+{
+	if (a == nullptr || b == nullptr || a == b) return;
+
+	auto nodea = GetNodeSharedPtr(a);
+	auto nodeb = GetNodeSharedPtr(b);
+
+	auto parenta = GetNodeSharedPtr(a->parent);
+	auto lefta = a->left;
+	auto righta = a->right;
+
+	auto parentb = GetNodeSharedPtr(b->parent);
+	auto leftb = b->left;
+	auto rightb = b->right;
+
+	auto islefta = IsNodeLeft(a);
+	auto isleftb = IsNodeLeft(b);
+
+	nodea->parent = parentb;
+	nodea->left = leftb;
+	nodea->right = rightb;
+	if (parentb.get() != nullptr)
+	{
+		if (isleftb == MyTree::nodepos::left) parentb->left = nodea;
+		else if (isleftb == MyTree::nodepos::right) parentb->right = nodea;
+		else head = nodea;
+	}
+	if (leftb != nullptr) leftb->parent = nodea.get();
+	if (rightb != nullptr) rightb->parent = nodea.get();
+
+
+	nodeb->parent = parenta.get();
+	nodeb->left = lefta;
+	nodeb->right = righta;
+	if (parenta.get() != nullptr)
+	{
+		if (islefta == MyTree::nodepos::left) parenta->left = nodeb;
+		else if (islefta == MyTree::nodepos::right) parenta->right = nodeb;
+		else head = nodeb;
+	}
+	if (lefta != nullptr) lefta->parent = nodeb.get();
+	if (righta != nullptr) righta->parent = nodeb.get();
+}
+
+template<typename T>
+void MyTree<T>::Balance(MyTreeNode<T>* node)
+{
+	if (node == nullptr) return;
+	MyTreeNode<T>* nextnodeleft = node->left.get(), *nextnoderight = node->right.get();
+	if (node->left != nullptr && node->right == nullptr)
+	{
+		if (node->left->left != nullptr)
+		{
+			node->left->right = GetNodeSharedPtr(node);
+			node->left->parent = node->parent;
+
+			int isleft = IsNodeLeft(node);
+			if (isleft == MyTree::nodepos::left) node->parent->left = node->left;
+			else if (isleft == MyTree::nodepos::right) node->parent->right = node->left;
+			else head = node->left;
+
+			node->parent = node->left.get();
+
+			node->left = nullptr;
+
+			nextnodeleft = node->parent->left.get();
+			nextnoderight = node;
+		}
+		else if (node->left->right != nullptr)
+		{
+			node->left->right->right = GetNodeSharedPtr(node);
+			node->left->right->parent = node->parent;
+
+			int isleft = IsNodeLeft(node);
+			if (isleft == MyTree::nodepos::right) node->parent->right = node->left->right;
+			else if (isleft == MyTree::nodepos::left) node->parent->left = node->left->right;
+			else head = node->left->right;
+
+			node->parent = node->left->right.get();
+
+			node->left->right->left = node->left;
+			node->left->parent = node->left->right.get();
+
+			node->left->right = nullptr;
+
+			node->left = nullptr;
+
+			nextnoderight = node;
+			nextnodeleft = node->parent->left.get();
+		}
+	}
+	else if (node->right != nullptr && node->left == nullptr)
+	{
+		if (node->right->left != nullptr)
+		{
+			node->right->left->left = GetNodeSharedPtr(node);
+			node->right->left->parent = node->parent;
+
+			int isleft = IsNodeLeft(node);
+			if (isleft == MyTree::nodepos::left) node->parent->left = node->right->left;
+			else if (isleft == MyTree::nodepos::right) node->parent->right = node->right->left;
+			else head = node->right->left;
+
+			node->parent = node->right->left.get();
+
+			node->right->left->right = node->right;
+			node->right->parent = node->right->left.get();
+
+			node->right->left = nullptr;
+
+			node->right = nullptr;
+
+			nextnodeleft = node;
+			nextnoderight = node->parent->right.get();
+		}
+		else if (node->right->right != nullptr)
+		{
+			node->right->left = GetNodeSharedPtr(node);
+			node->right->parent = node->parent;
+
+			int isleft = IsNodeLeft(node);
+			if (isleft == MyTree::nodepos::left) node->parent->left = node->right;
+			else if (isleft == MyTree::nodepos::right) node->parent->right = node->right;
+			else head = node->right;
+
+			node->parent = node->right.get();
+
+			node->right = nullptr;
+
+			nextnodeleft = node;
+			nextnoderight = node->parent->right.get();
+		}
+	}
+	else if (node->left == nullptr && node->parent != nullptr && node->parent->right != nullptr)
+	{
+		if (node->parent->right->left != nullptr)
+		{
+			if (node->parent->right->left->left != nullptr)
+			{
+
+			}
+			else if (node->parent->right->left->right != nullptr)
+			{
+
+			}
+		}
+		else if (node->parent->right->right != nullptr)
+		{
+			if (node->parent->right->right->left != nullptr)
+			{
+
+			}
+			else if (node->parent->right->right->right != nullptr)
+			{
+
+			}
+		}
+	}
+	else if (node->right == nullptr && node->parent != nullptr && node->parent->left != nullptr)
+	{
+	if (node->parent->left->left != nullptr)
+	{
+		if (node->parent->left->left->left != nullptr)
+		{
+
+		}
+		else if (node->parent->left->left->right != nullptr)
+		{
+
+		}
+	}
+	else if (node->parent->left->right != nullptr)
+	{
+		if (node->parent->left->right->left != nullptr)
+		{
+
+		}
+		else if (node->parent->left->right->right != nullptr)
+		{
+
+		}
+	}
+	}
+	Balance(nextnodeleft);
+	Balance(nextnoderight);
 }
