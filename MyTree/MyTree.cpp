@@ -208,7 +208,7 @@ MyTreeNode<T>* MyTree<T>::GetParentNode(const MyTreeNode<T>* node) const noexcep
 }
 
 template<typename T>
-MyList<T> MyTree<T>::AllKeysToListRerusiveSorted(const MyTreeNode<T>* node, MyList<T>* lst)const
+MyList<T> MyTree<T>::AllKeysToListRecusiveSorted(const MyTreeNode<T>* node, MyList<T>* lst)const
 {
 	if (lst == nullptr) lst = &MyList<T>();
 	if (node == nullptr) return *lst;
@@ -218,21 +218,24 @@ MyList<T> MyTree<T>::AllKeysToListRerusiveSorted(const MyTreeNode<T>* node, MyLi
 	return *lst;
 }
 
+template<typename T>
+MyList<T> MyTree<T>::ToList()const noexcept { return AllKeysToListRerusiveSorted(head.get()); }
 
 template<typename T>
-std::string MyTree<T>::ToString(const char &symbol)const noexcept
+std::string MyTree<T>::AllKeysToStringRecusiveSorted(const char &symbol, const MyTreeNode<T>* node, std::string* lst)const
 {
-	std::string str = "";
-	MyList<T> lst = AllKeysToListRerusiveSorted(head.get());
-	//lst.BubbleSort();
-	if (!lst.empty()) { str += lst.front(); lst.pop_front(); }
-	while (!lst.empty())
-	{
-		str += (symbol + std::to_string(lst.front()));
-		lst.pop_front();
-	}
-	return str;
+	if (lst == nullptr) lst = &std::string("");
+	if (node == nullptr) return *lst;
+	AllKeysToStringRecusiveSorted(symbol, node->left.get(), lst);
+	if (lst->length() > 0) lst->operator+=(symbol);
+	lst->operator+=(std::to_string(node->key));
+	AllKeysToStringRecusiveSorted(symbol, node->right.get(), lst);
+	return *lst;
 }
+
+
+template<typename T>
+std::string MyTree<T>::ToString(const char &symbol)const noexcept { return AllKeysToStringRecusiveSorted(symbol, head.get()); }
 
 
 template<typename T>

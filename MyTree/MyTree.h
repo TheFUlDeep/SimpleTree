@@ -44,7 +44,8 @@ private:
 	size_t RecursiveGetHeight(const MyTreeNode<T>* = nullptr)const;
 	size_t RecursiveGetHeightMin(const MyTreeNode<T>* = nullptr)const;
 	//std::shared_ptr<T*> AllNodesToArray();
-	MyList<T> AllKeysToListRerusiveSorted(const MyTreeNode<T>* = nullptr, MyList<T>* = nullptr)const;
+	MyList<T> AllKeysToListRecusiveSorted(const MyTreeNode<T>* = nullptr, MyList<T>* = nullptr)const;
+	std::string AllKeysToStringRecusiveSorted(const char&, const MyTreeNode<T>* = nullptr,std::string* = nullptr)const;
 	void PrettyPrintRecursive(const size_t*, const size_t*, const char*, MyList<MyTreeNode<T>*> = MyList<MyTreeNode<T>*>(), size_t linenumber = 1)const;
 	int IsNodeLeft(MyTreeNode<T>* = nullptr);
 	std::shared_ptr<MyTreeNode<T>>& GetNodeSharedPtr(MyTreeNode<T>* node);
@@ -72,6 +73,8 @@ public:
 	MyTreeNode<T>* FindMax(MyTreeNode<T>*)const noexcept;//аргумент не константный патамушта
 
 	std::string ToString(const char &)const noexcept;
+
+	MyList<T> ToList()const noexcept;
 
 	MyTreeNode<T>* GetParentNode(const MyTreeNode<T>*)const noexcept;
 	MyTreeNode<T>* GetLeftNode(const MyTreeNode<T>*)const noexcept;

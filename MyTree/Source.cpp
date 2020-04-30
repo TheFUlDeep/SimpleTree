@@ -1,21 +1,24 @@
 ﻿#include <iostream>
 #include "MyTree.cpp"
+#include <list>
 
 using namespace std;
 
 void SortByTree() 
 {
 	MyTree<int> tree;
-	for (size_t i = 0; i < 10000; i++) tree.Add(rand() % 1001);
+	std::list<int> list;
+	for (size_t i = 0; i < 100; i++) tree.Add(rand());
 	auto a = tree.ToString(' ');
+	cout << a << endl;
 }
 
 void SortByMinMax()
 {
 	MyList<int> list;
-	for (size_t i = 0; i < 10000; i++) list.push_back(rand() % 1001);
-	list.MinMaxSort();
-	list.ToString(' ');
+	for (size_t i = 0; i < 1000; i++) list.push_back(rand() % 1001);
+	list.BubbleSort();
+	//list.ToString(' ');
 	//cout << list.ToString(' ') << "\n\n";
 }
 
@@ -73,11 +76,11 @@ int main()
 	list.MinMaxSort();
 	cout << list.ToString(' ') << endl;
 
-	//SortByTree();
-	//SortByMinMax();
-	//SortByMinMax();
-	//SortByTree();
-	//SortByTree();
+	SortByTree();
+	SortByMinMax();
+	SortByMinMax();
+	SortByTree();
+	SortByTree();
 
 
 	system("pause");
