@@ -363,10 +363,12 @@ void MyTree<T>::SwapNodes(MyTreeNode<T>* a, MyTreeNode<T>* b)
 	auto parenta = GetNodeSharedPtr(a->parent);
 	auto lefta = a->left;
 	auto righta = a->right;
+	auto centrala = a->central;
 
 	auto parentb = GetNodeSharedPtr(b->parent);
 	auto leftb = b->left;
 	auto rightb = b->right;
+	auto centralb = b->central;
 
 	auto islefta = IsNodeLeft(a);
 	auto isleftb = IsNodeLeft(b);
@@ -374,27 +376,33 @@ void MyTree<T>::SwapNodes(MyTreeNode<T>* a, MyTreeNode<T>* b)
 	nodea->parent = parentb;
 	nodea->left = leftb;
 	nodea->right = rightb;
+	nodea->central = centralb;
 	if (parentb.get() != nullptr)
 	{
 		if (isleftb == MyTree::nodepos::left) parentb->left = nodea;
 		else if (isleftb == MyTree::nodepos::right) parentb->right = nodea;
+		else if (isleftb == MyTree::nodepos::central) parentb->central = nodea;
 		else head = nodea;
 	}
 	if (leftb != nullptr) leftb->parent = nodea.get();
 	if (rightb != nullptr) rightb->parent = nodea.get();
+	if (centralb != nullptr) centralb->parent = nodea.get();
 
 
 	nodeb->parent = parenta.get();
 	nodeb->left = lefta;
 	nodeb->right = righta;
+	nodeb->central = centrala;
 	if (parenta.get() != nullptr)
 	{
 		if (islefta == MyTree::nodepos::left) parenta->left = nodeb;
 		else if (islefta == MyTree::nodepos::right) parenta->right = nodeb;
+		else if (islefta == MyTree::nodepos::central) parenta->central = nodeb;
 		else head = nodeb;
 	}
 	if (lefta != nullptr) lefta->parent = nodeb.get();
 	if (righta != nullptr) righta->parent = nodeb.get();
+	if (centrala != nullptr) centrala->parent = nodeb.get();
 }
 
 template<typename T>
