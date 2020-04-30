@@ -208,17 +208,6 @@ MyTreeNode<T>* MyTree<T>::GetParentNode(const MyTreeNode<T>* node) const noexcep
 }
 
 template<typename T>
-MyList<T> MyTree<T>::AllKeysToListRerusive(const MyTreeNode<T>* node, MyList<T>* lst)const
-{
-	if (lst == nullptr) lst = &MyList<T>();
-	if (node == nullptr) return *lst;
-	lst->push_back(node->key);
-	AllKeysToListRerusive(node->right.get(),lst);
-	AllKeysToListRerusive(node->left.get(),lst);
-	return *lst;
-}
-
-template<typename T>
 MyList<T> MyTree<T>::AllKeysToListRerusiveSorted(const MyTreeNode<T>* node, MyList<T>* lst)const
 {
 	if (lst == nullptr) lst = &MyList<T>();
@@ -231,14 +220,15 @@ MyList<T> MyTree<T>::AllKeysToListRerusiveSorted(const MyTreeNode<T>* node, MyLi
 
 
 template<typename T>
-std::string MyTree<T>::GetAllNodes()const noexcept
+std::string MyTree<T>::ToString(const char &symbol)const noexcept
 {
 	std::string str = "";
 	MyList<T> lst = AllKeysToListRerusiveSorted(head.get());
 	//lst.BubbleSort();
+	if (!lst.empty()) { str += lst.front(); lst.pop_front(); }
 	while (!lst.empty())
 	{
-		str += (" " + std::to_string(lst.front()));
+		str += (symbol + std::to_string(lst.front()));
 		lst.pop_front();
 	}
 	return str;
