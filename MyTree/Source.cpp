@@ -1,25 +1,42 @@
 ﻿#include <iostream>
 #include "MyTree.cpp"
-#include <list>
+
+/*
+      o
+     /| \
+    / |  \
+   /  |   \
+  /   |    \
+ o    o     o
+/     |    /| \
+      o   o o  o
+
+
+ноуд уходит вертикально вниз, если ноуд с таким же ключем уже есть
+если ноуд ушел вертикально вниз, то у него не будет ответвлений. При удалении ноуда, если есть вертикальный, то нужные удаляется, а остальные сдвигаются
+*/
+
+
+//TODO
+//SwapNodes
 
 using namespace std;
 
 void SortByTree() 
 {
 	MyTree<int> tree;
-	std::list<int> list;
-	for (size_t i = 0; i < 10000; i++) tree.Add(rand());
+	for (size_t i = 0; i < 10000; i++) tree.Add(rand()%100);
 	auto a = tree.ToString(' ');
-	//cout << a << endl;
+	cout << a << endl;
 }
 
 void SortByMinMax()
 {
 	MyList<int> list;
-	for (size_t i = 0; i < 10000; i++) list.push_back(rand() % 1001);
+	for (size_t i = 0; i < 10000; i++) list.push_back(rand());
 	list.MinMaxSort();
 	auto a = list.ToString(' ');
-	//cout << list.ToString(' ') << "\n\n";
+	cout << list.ToString(' ') << "\n\n";
 }
 
 int main()
@@ -32,10 +49,10 @@ int main()
 	cout << "Количество ноудов: " << a.GetNodesCount() << endl;
 	cout << "Высота: " << a.GetHeight() << endl;
 	cout << "Cписок всех ключей: " << a.ToString(' ') << endl;
-	for (size_t i = 0; i < 15; i++) { int k = rand() %100; a.Add(k); cout << "Вставил " << k << endl; }
-	//a.Add(1);a.Add(-1);a.Add(11); a.Add(7); a.Add(5); a.Add(4); a.Add(6); a.Add(9); a.Add(10); a.Add(16); a.Add(13); a.Add(8); a.Add(12); a.Add(14); a.Add(18); a.Add(17); a.Add(19);
-
-	//a.Add(0);
+	//for (size_t i = 0; i < 15; i++) { int k = rand() %100; a.Add(k); cout << "Вставил " << k << endl; }
+	//a.Add(1);a.Add(-1);a.Add(11); a.Add(7); a.Add(5); a.Add(4); a.Add(6); a.Add(9); a.Add(10); a.Add(16);// a.Add(13); a.Add(8); a.Add(12); a.Add(14); a.Add(18); a.Add(17); a.Add(19);
+	a.Add(1); a.Add(2); a.Add(3); a.Add(4); a.Add(5); a.Add(6); a.Add(7); a.Add(8);
+	a.Add(0); a.Add(0); a.Add(0); a.Add(0); a.Add(0); a.Add(0); a.Add(0); a.Add(0); a.Add(0); a.Add(0); a.Add(0);
 	//add 1); add 2); add 3); add 4); add 5);
 	//a.Add(-1); a.Add(-2); a.Add(-3); a.Add(-4); a.Add(-5);
 
@@ -53,7 +70,15 @@ int main()
 	a.PrettyPrint();
 
 	cout << "Удаляю звено с ключом 16" << endl;
-	a.RemoveNode(a.Find(16));
+	a.RemoveNode(a.Find(0));
+	a.RemoveNode(a.Find(0));
+	a.RemoveNode(a.Find(0));
+	a.RemoveNode(a.Find(0));
+	a.RemoveNode(a.Find(0));
+	a.RemoveNode(a.Find(0));
+	a.RemoveNode(a.Find(0));
+	a.RemoveNode(a.Find(0));
+	a.RemoveNode(a.Find(0));
 	cout << "Количество ноудов: " << a.GetNodesCount() << endl;
 	cout << "Высота: " << a.GetHeight() << endl;
 	cout << "Cписок всех ключей: " << a.ToString(' ') << endl;
@@ -78,9 +103,9 @@ int main()
 
 	SortByTree();
 	SortByMinMax();
-	SortByMinMax();
-	SortByTree();
-	SortByTree();
+	//SortByMinMax();
+	//SortByTree();
+	//SortByTree();
 
 
 	system("pause");
