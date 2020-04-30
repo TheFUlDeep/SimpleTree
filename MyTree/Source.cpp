@@ -18,7 +18,7 @@
 
 
 //TODO
-//SwapNodes
+//проверить все варианты для RemoveNode и SwapNodes
 
 using namespace std;
 
@@ -69,15 +69,22 @@ int main()
 
 	a.PrettyPrint();
 
-	cout << "Удаляю звено с ключом 16" << endl;
+	a.RemoveNode(a.Find(2));
+	a.PrettyPrint();
+	a.RemoveNode(a.Find(4));
+	a.PrettyPrint();
+	a.RemoveNode(a.Find(3));
+	a.PrettyPrint();
+	a.RemoveNode(a.Find(1));
+	a.PrettyPrint();
+	a.RemoveNode(a.Find(6));
+	a.PrettyPrint();
 	a.RemoveNode(a.Find(0));
+	a.PrettyPrint();
 	a.RemoveNode(a.Find(0));
+	a.PrettyPrint();
 	a.RemoveNode(a.Find(0));
-	a.RemoveNode(a.Find(0));
-	a.RemoveNode(a.Find(0));
-	a.RemoveNode(a.Find(0));
-	a.RemoveNode(a.Find(0));
-	a.RemoveNode(a.Find(0));
+	a.PrettyPrint();
 	a.RemoveNode(a.Find(0));
 	cout << "Количество ноудов: " << a.GetNodesCount() << endl;
 	cout << "Высота: " << a.GetHeight() << endl;

@@ -122,14 +122,13 @@ void MyTree<T>::RemoveNode(MyTreeNode<T>* node)noexcept
 		if (pos == MyTree::nodepos::central) node->parent->central = node->central;
 		else if (pos == MyTree::nodepos::left) node->parent->left = node->central;
 		else if (pos == MyTree::nodepos::right) node->parent->right = node->central;
+		else head = node->central;
 
 		if (node->left.get() != nullptr) node->left->parent = node->central.get();
 		if (node->right.get() != nullptr) node->right->parent = node->central.get();
 
 		node->central->left = node->left;
 		node->central->right = node->right;
-
-		if (node == head.get()) head = node->central;
 	}
 	//дальше подрузамевается, что центрального наследника нет
 	else if (node->parent != nullptr)//если есть роидетль (если это не голова)
@@ -183,12 +182,14 @@ void MyTree<T>::RemoveNode(MyTreeNode<T>* node)noexcept
 			//вместо удаленного ноуда вставляю левый. Но можно было правый. 
 			auto rightnode = node->right;
 			head = head->left;
+			head->parent = nullptr;
 			MyTreeNode<T> *curnode = head.get();
 			while (curnode->right != nullptr) curnode = curnode->right.get();
 			curnode->right = rightnode;
 			rightnode->parent = curnode;
 		}
 	}
+	Balance(head.get());
 	nodesCount--;
 }
 
