@@ -8,17 +8,17 @@ void SortByTree()
 {
 	MyTree<int> tree;
 	std::list<int> list;
-	for (size_t i = 0; i < 100; i++) tree.Add(rand());
+	for (size_t i = 0; i < 10000; i++) tree.Add(rand());
 	auto a = tree.ToString(' ');
-	cout << a << endl;
+	//cout << a << endl;
 }
 
 void SortByMinMax()
 {
 	MyList<int> list;
-	for (size_t i = 0; i < 1000; i++) list.push_back(rand() % 1001);
-	list.BubbleSort();
-	//list.ToString(' ');
+	for (size_t i = 0; i < 10000; i++) list.push_back(rand() % 1001);
+	list.MinMaxSort();
+	auto a = list.ToString(' ');
 	//cout << list.ToString(' ') << "\n\n";
 }
 
