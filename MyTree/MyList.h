@@ -113,12 +113,12 @@ public:
 	{
 		if (head == nullptr) return;
 		size_t ourlen = len / 2;
-		MyListNode<T> *firstnode = head.get(), *lastnode = end, *curnode = nullptr, *minnode = nullptr, *maxnode = nullptr, *lastnode2 = nullptr;
+		MyListNode<T> *firstnode = head.get(), *lastnode = end, *curnode = nullptr, *minnode = nullptr, *maxnode = nullptr;
 		bool minchanged = false, maxchanged = false;
 		for (size_t i = 0; i < ourlen; i++)
 		{
-			for (size_t i = 0; i < len; i++) std::cout << operator[](i) << " ";
-			std::cout << "\n";
+			//for (size_t i = 0; i < len; i++) std::cout << operator[](i) << " ";
+			//std::cout << "\n";
 
 			minchanged = maxchanged = false;
 			minnode = curnode = firstnode;
