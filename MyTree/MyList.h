@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <memory>
 #include <ostream>
+#include <string>
 
 
 	template<typename T>
@@ -106,37 +107,52 @@
 
 		T& operator[](const size_t n)const { if (n >= len) throw std::exception("wrong index"); return GetNode(n)->value; }
 
-		void SortMinMax()noexcept
+		void MinMaxSort()
 		{
 			if (head == nullptr) return;
-			for (size_t i = 0; i < len; i++)
+			MyListNode<T> *firstnode = head.get(), *lastnode = end, *curnode = nullptr, *minnode = nullptr, *maxnode = nullptr, *lastnode2 = nullptr;
+			bool minchanged = false, maxchanged = false;
+			size_t ourlen = len / 2;
+			for (size_t i = 0; i < ourlen; i++)
 			{
-				MyListNode<T> *mink = nullptr, *maxk = nullptr;
-				MyListNode<T> *curnode = GetNode(i);
-				MyListNode<T> *lastnode = GetNodeR(i);
-				MyListNode<T> *curnode2 = curnode;
-				T min = curnode2->value, max = lastnode->value;
-				bool minchanged = false, maxchanged = false;
-				for (size_t k = i; k < len - i; k++) {
-					T kval = curnode2->value;
-					if (min > kval) { min = kval; mink = curnode2; minchanged = true; }
-					if (max < kval) { max = kval; maxk = curnode2; maxchanged = true; }
-					curnode2 = curnode2->nextnode.get();
-				}
-				if (minchanged) SwapNodes(mink,curnode);
-				if (maxchanged) SwapNodes(maxk, lastnode);
-				/*if (minchanged)//это свап чисто значений из ноудов, а не целиком ноудов
+				//for (size_t i = 0; i < len; i++) std::cout << operator[](i) << " ";
+				//std::cout << "\n";
+
+				minchanged = false;
+				maxchanged = false;
+				minnode = firstnode;
+				maxnode = lastnode;
+				curnode = firstnode;
+				do
 				{
-					T tmp = mink->value;
-					mink->value = curnode->value;
-					curnode->value = tmp;
+					if (curnode->value < minnode->value)
+					{
+						minchanged = true;
+						minnode = curnode;
+					}
+					if (curnode->value > maxnode->value)
+					{
+						maxchanged = true;
+						maxnode = curnode;
+					}
+					curnode = curnode->nextnode.get();
+				} while (curnode != lastnode->nextnode.get());
+
+
+				if (minchanged)
+				{
+					SwapNodes(minnode, firstnode);
+					if (minnode == lastnode) lastnode = firstnode;
+					firstnode = minnode;
 				}
 				if (maxchanged)
 				{
-					T tmp = maxk->value;
-					maxk->value = lastnode->value;
-					lastnode->value = tmp;
-				}*/
+					SwapNodes(maxnode, lastnode);
+					lastnode = maxnode;
+				}
+
+				firstnode = firstnode->nextnode.get();
+				lastnode = lastnode->prevnode;
 			}
 		}
 
@@ -208,5 +224,21 @@
 				if (curnode == nullptr) return nullptr;
 			}
 			return curnode;
+		}
+
+		std::string ToString(const char &symbol)const noexcept
+		{
+			std::string str = "";
+			if (head == nullptr) return str;
+			MyListNode<T> *curnode = head.get();
+			str += std::to_string(curnode->value);
+			curnode = curnode->nextnode.get();
+			while (curnode != nullptr)
+			{
+				str += symbol;
+				str += std::to_string(curnode->value);
+				curnode = curnode->nextnode.get();
+			}
+			return str;
 		}
 	};
