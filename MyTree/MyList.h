@@ -108,40 +108,31 @@ public:
 
 	T& operator[](const size_t n)const { if (n >= len) throw std::exception("wrong index"); return GetNode(n)->value; }
 
-	void MinMaxSort()//за каждый проход ищу 4 элемента - минимальный, максимальный, предминимальный, предмаксимальный. Запоминание предыдущих значений ускоряет в лучшем улчае в два раза
+
+	void MinMaxSort()
 	{
 		if (head == nullptr) return;
-		MyListNode<T> *firstnode = head.get(), *lastnode = end, *curnode = nullptr, *minnode = nullptr, *maxnode = nullptr, *lastnode2 = nullptr, *prevminnode = nullptr, *prevmaxnode = nullptr;
-		bool minchanged = false, maxchanged = false, firstmin = true, firstmax = true;
 		size_t ourlen = len / 2;
+		MyListNode<T> *firstnode = head.get(), *lastnode = end, *curnode = nullptr, *minnode = nullptr, *maxnode = nullptr, *lastnode2 = nullptr;
+		bool minchanged = false, maxchanged = false;
 		for (size_t i = 0; i < ourlen; i++)
 		{
-			//for (size_t i = 0; i < len; i++) std::cout << operator[](i) << " ";
-			//std::cout << "\n";
+			for (size_t i = 0; i < len; i++) std::cout << operator[](i) << " ";
+			std::cout << "\n";
 
 			minchanged = maxchanged = false;
 			minnode = curnode = firstnode;
 			maxnode = lastnode;
-			prevminnode = prevmaxnode = nullptr;
-			firstmin = firstmax = true;
 			do
 			{
 				if (curnode->value < minnode->value)
 				{
 					minchanged = true;
-
-					if (firstmin) firstmin = false;
-					else prevminnode = minnode;
-
 					minnode = curnode;
 				}
 				if (curnode->value > maxnode->value)
 				{
 					maxchanged = true;
-
-					if (firstmax) firstmax = false;
-					else prevmaxnode = maxnode;
-
 					maxnode = curnode;
 				}
 				curnode = curnode->nextnode.get();
@@ -161,20 +152,6 @@ public:
 			}
 			firstnode = firstnode->nextnode.get();
 			lastnode = lastnode->prevnode;
-
-			if (prevmaxnode != nullptr && prevminnode != nullptr)
-			{
-				SwapNodes(prevminnode, firstnode);
-				if (prevminnode == lastnode) lastnode = firstnode;
-				firstnode = prevminnode;
-
-				SwapNodes(prevmaxnode, lastnode);
-				lastnode = prevmaxnode;
-
-				firstnode = firstnode->nextnode.get();
-				lastnode = lastnode->prevnode;
-				i++;
-			}
 		}
 	}
 

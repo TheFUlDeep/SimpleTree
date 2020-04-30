@@ -68,7 +68,8 @@ int main()
 
 
 	MyList<int> list;
-	for (size_t i = 0; i < 10000; i++) list.push_back(rand() % 1001);
+	//for (size_t i = 0; i < 10; i++) list.push_back(rand() % 1001);
+	list.push_back(2); list.push_back(5); list.push_back(2); list.push_back(3); list.push_back(2); list.push_back(1); list.push_back(0); list.push_back(-1);
 	list.MinMaxSort();
 	cout << list.ToString(' ') << endl;
 
